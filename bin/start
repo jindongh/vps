@@ -10,7 +10,8 @@ if [ -f ${LOGFILE} ];then
 fi
 
 #get my ip
-IP=$(ifconfig|grep "inet "|grep -v 127.0.0.1|awk '{print $2}')
+#support CentOS and Ubuntu
+IP=$(ifconfig eth0 | grep "inet "|grep -o -E "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"|head -n 1)
 
 pgrep server.py > /dev/null
 if [ $? -ne 0 ];then
