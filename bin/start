@@ -10,7 +10,7 @@ if [ -f ${LOGFILE} ];then
 fi
 
 #get my ip
-IP=$(ifconfig|grep "inet addr"|grep -v 127.0.0.1|awk -F: '{print $2}'|awk '{print $1}')
+IP=$(ifconfig|grep "inet "|grep -v 127.0.0.1|awk '{print $2}')
 
 pgrep server.py > /dev/null
 if [ $? -ne 0 ];then
@@ -34,7 +34,4 @@ if [ $? -ne 0 -o "$IP" != "${IP}" ];then
 	cd ${BINDIR}/../oray
 	nohup ./phddns >> ${LOGFILE} 2>/dev/null &
 fi
-echo "check service @ $(date)" >> ${LOGFILE}
-echo "server:$(pgrep server.py)" >> ${LOGFILE}
-echo "local:$(pgrep local.py)" >> ${LOGFILE}
-echo "phddns:$(pgrep phddns)" >> ${LOGFILE}
+echo "$(date) server:[$(pgrep server.py)] local:[$(pgrep local.py)] phddns:[$(pgrep phddns)]" >> ${LOGFILE}
