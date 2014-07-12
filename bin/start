@@ -15,23 +15,24 @@ IP=$(ifconfig|grep "inet addr"|grep -v 127.0.0.1|awk -F: '{print $2}'|awk '{prin
 pgrep server.py > /dev/null
 if [ $? -ne 0 ];then
 	cd ${BINDIR}/../shadowsocks
-	nohup ./server.py >> ${LOGFILE}
+	nohup ./server.py >> ${LOGFILE} 2>/dev/null &
 fi
 pgrep local.py > /dev/null
 if [ $? -ne 0 ];then
 	cd ${BINDIR}/../shadowsocks
-	nohup ./local.py >> ${LOGFILE}
+	nohup ./local.py > /dev/null 2>/dev/null &
 fi
 
 IP=$(host hankjin.vicp.net|awk '{print $NF}')
-if [ "$IP" != "${IP}" ];then
+pgrep phddns > /dev/null
+if [ $? -ne 0 -o "$IP" != "${IP}" ];then
 	PIDS=$(pgrep phddns)
 	if [ $? -eq 0 ];then
 		echo "restart phddns ${PIDS}" >> ${LOGFILE}
 		kill -9 ${PIDS}
 	fi
 	cd ${BINDIR}/../oray
-	nohup ./phddns > log &
+	nohup ./phddns >> ${LOGFILE} 2>/dev/null &
 fi
 echo "check service @ $(date)" >> ${LOGFILE}
 echo "server:$(pgrep server.py)" >> ${LOGFILE}
