@@ -1,0 +1,39 @@
+#!/bin/bash
+#ss
+BINDIR=$(cd $(dirname "$0"); pwd)
+LOGFILE=${BINDIR}/log.hjz
+if [ -f ${LOGFILE} ];then
+	if [ $(cat ${LOGFILE} | wc -l) -gt 1000 ];then
+		tail -n 100 ${LOGFILE} > ${LOGFILE}.bak
+		mv ${LOGFILE}.bak ${LOGFILE}
+	fi
+fi
+
+#get my ip
+IP=$(ifconfig|grep "inet addr"|grep -v 127.0.0.1|awk -F: '{print $2}'|awk '{print $1}')
+
+pgrep server.py > /dev/null
+if [ $? -ne 0 ];then
+	cd ${BINDIR}/../shadowsocks
+	nohup ./server.py >> ${LOGFILE}
+fi
+pgrep local.py > /dev/null
+if [ $? -ne 0 ];then
+	cd ${BINDIR}/../shadowsocks
+	nohup ./local.py >> ${LOGFILE}
+fi
+
+IP=$(host hankjin.vicp.net|awk '{print $NF}')
+if [ "$IP" != "${IP}" ];then
+	PIDS=$(pgrep phddns)
+	if [ $? -eq 0 ];then
+		echo "restart phddns ${PIDS}" >> ${LOGFILE}
+		kill -9 ${PIDS}
+	fi
+	cd ${BINDIR}/../oray
+	nohup ./phddns > log &
+fi
+echo "check service @ $(date)" >> ${LOGFILE}
+echo "server:$(pgrep server.py)" >> ${LOGFILE}
+echo "local:$(pgrep local.py)" >> ${LOGFILE}
+echo "phddns:$(pgrep phddns)" >> ${LOGFILE}
