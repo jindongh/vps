@@ -1,0 +1,4 @@
+#!/bin/bash
+#@author: jindongh
+#@description: backup database
+mysqldump -u blogu -p blog > blog.sql
