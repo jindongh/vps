@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'tagging',
     'mptt',
+    'blog',
     'zinnia',
 )
 
@@ -51,6 +52,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   'django.core.context_processors.request',
   'zinnia.context_processors.version',  # Optional
 )
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'template'),
+)
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
