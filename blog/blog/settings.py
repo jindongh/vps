@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'mptt',
     'blog',
     'zinnia',
+    'weixin',
 )
 
 SITE_ID = 1
