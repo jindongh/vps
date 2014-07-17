@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #coding: utf-8
 import api
-from django.shortcuts import render_to_response
+import sys
 
 #http://www.hankjohn.net/weixin/web
 def helpMsg():
@@ -39,6 +39,7 @@ SERVICES={
         #hotel
         u'\u9152\u5e97'.encode('utf-8'): u'\u9152\u5e97'.encode('utf-8'),
         u'\u65c5\u5e97'.encode('utf-8'): u'\u9152\u5e97'.encode('utf-8'),
+        u'\u4f4f\u5bbf'.encode('utf-8'): u'\u9152\u5e97'.encode('utf-8'),
         #travel
         u'\u65c5\u884c'.encode('utf-8'): u'\u65c5\u884c'.encode('utf-8'),
         #daily
@@ -87,6 +88,6 @@ if __name__=='__main__':
     print '3. trans'
     print analyze(u'\u7ffb\u8bd1 hello'.encode('utf-8'))
     print '4.search'
-    print analyze(u'\u5a31\u4e50 \u5929\u5b89\u95e8'.encode('utf-8')).decode('utf8').encode('gbk')
+    print analyze(u'\u5a31\u4e50 \u5929\u5b89\u95e8'.encode('utf-8')).encode('gbk')
     print '5.trans'
     print analyze('hello world'.encode('utf-8')).encode('gbk')

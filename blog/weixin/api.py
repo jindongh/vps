@@ -104,7 +104,7 @@ def search(name, category=EAT):
         now=int(time.time())
         #check timeout
         if now - dbitem[0] < 300:
-            return dbitem[1]
+            return dbitem[1].decode('utf-8')
 
     #access api
     if False:
