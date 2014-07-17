@@ -58,7 +58,7 @@ def search(name):
             option['description'],
             option['distance'],
             option['current_price'],
-            option['deal_url']
+            option['deal_h5_url']
             )
             )
     return '\n'.join(result)
