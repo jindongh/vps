@@ -1,14 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt  
 from django.utils.encoding import smart_str, smart_unicode 
 import weixin.api
+import weixin.da
 
 import xml.etree.ElementTree as ET  
 import urllib2,hashlib,time
 # Create your views here.
 
 TOKEN="hankjin"
+
+def help(request):
+    return render_to_response('weixin.html')
 
 @csrf_exempt
 def serv(request):  
@@ -17,9 +21,6 @@ def serv(request):
         response = HttpResponse(checkSignature(request),content_type="text/plain")  
         return response  
     elif request.method == 'POST':  
-        #c = RequestContext(request,{'result':responseMsg(request)})  
-        #t = Template('{{result}}')  
-        #response = HttpResponse(t.render(c),content_type="application/xml")  
         response = HttpResponse(responseMsg(request),content_type="application/xml")  
         return response  
     else:  
@@ -48,10 +49,8 @@ def responseMsg(request):
     msg = paraseMsgXml(ET.fromstring(rawStr))  
       
     queryStr = msg.get('Content','')
-    if 0 == len(queryStr):
-        replyContent = weixin.api.getHelp()
-    else:
-        replyContent = weixin.api.search(queryStr)
+
+    replyContent = weixin.da.analyze(queryStr)
   
     return getReplyXml(msg,replyContent)  
   

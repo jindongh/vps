@@ -60,7 +60,7 @@ class FileDB:
             if None==item:
                 res = cu.execute('insert into %s(key, value, tmupdate) values(?, ?, ?)' % table, (key, value, now))
             else:
-                res = cu.execute('update %s set value=? tmupdate=? where key=?' % table, (value, now, key))
+                res = cu.execute('update %s set value=?, tmupdate=? where key=?' % table, (value, now, key))
             self.cx.commit()
             return True
         except Exception, e:
