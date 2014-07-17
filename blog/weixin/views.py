@@ -3,11 +3,13 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt  
 from django.utils.encoding import smart_str, smart_unicode 
 
+import xml.etree.ElementTree as ET  
 import urllib2,hashlib,time
 # Create your views here.
 
 TOKEN="hankjin"
 
+@csrf_exempt
 def serv(request):  
     if request.method == 'GET':  
         #response = HttpResponse(request.GET['echostr'],content_type="text/plain")  
@@ -40,7 +42,7 @@ def checkSignature(request):
         return None 
 
 def responseMsg(request):  
-    rawStr = smart_str(request.raw_post_data)  
+    rawStr = smart_str(request.body)  
     #rawStr = smart_str(request.POST['XML'])  
     msg = paraseMsgXml(ET.fromstring(rawStr))  
       
