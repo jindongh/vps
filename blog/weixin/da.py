@@ -5,17 +5,18 @@ from django.shortcuts import render_to_response
 
 #http://www.hankjohn.net/weixin/web
 def helpMsg():
-    return render_to_response('weixin.html')
     return u'''
-menu/help/\u5e2e\u52a9: \u6253\u5370\u5e2e\u52a9\u83dc\u5355
-1. \u670d\u52a1
-<\u897f\u4e8c\u65d7>: \u4e2d\u6587\u5730\u540d\uff0c\u81ea\u52a8\u5bfb\u627e\u9644\u8fd1\u7f8e\u98df
-<\u4f4f\u5bbf> <\u897f\u4e8c\u65d7>\uff1a\u670d\u52a1\u7c7b\u578b+\u7a7a\u683c+\u5730\u540d\uff1a\u5bfb\u627e\u9644\u8fd1\u670d\u52a1
-2. \u5de5\u5177
-<english sentenses>: \u82f1\u6587\u53e5\u5b50\u6216\u5355\u8bcd\u81ea\u52a8\u7ffb\u8bd1
-\u751f\u65e5:\u67e5\u770b\u751f\u65e5\u8bb0\u5f55
-\u751f\u65e5 \u59d3\u540d \u65f6\u95f4:\u67e5\u770b\u751f\u65e5\u8bb0\u5f55
-\u7ffb\u8bd1 <\u4e2d\u6587\u53e5\u5b50>\uff1a\u7ffb\u8bd1\u4e2d\u6587\u5230\u82f1\u6587
+menu/help/\u5e2e\u52a9: \u6253\u5370\u5e2e\u52a9\u83dc\u5355 
+\u670d\u52a1 
+    \u9152\u5e97 \u897f\u4e8c\u65d7: \u5bfb\u627e\u9644\u8fd1\u9152\u5e97, \u670d\u52a1s:
+        \u7535\u5f71, \u7f8e\u98df, \u8d2d\u7269, \u4f11\u95f2, \u5a31\u4e50, \u65c5\u6e38
+\u5de5\u5177 
+    \u7ffb\u8bd1 \u4f60\u597d: \u7ffb\u8bd1\u4e2d\u6587\u5230\u82f1\u6587 
+    \u751f\u65e5:\u67e5\u770b\u751f\u65e5\u8bb0\u5f55 
+    \u751f\u65e5 \u59d3\u540d \u65f6\u95f4:\u67e5\u770b\u751f\u65e5\u8bb0\u5f55 
+\u9ed8\u8ba4
+    \u82f1\u6587: \u7ffb\u8bd1 
+    \u4e2d\u6587: \u5bfb\u627e\u9644\u8fd1\u7f8e\u98df
     '''.encode('utf-8')
 def birthList():
     return [
@@ -72,7 +73,10 @@ def analyze(query):
             print SERVICES[subquery].decode('utf-8').encode('gbk')
             return api.search(query[len(subquery)+sublen:], SERVICES[subquery])
     #4 default
-    return api.translate(query)
+    if api.isEnglish(query):
+        return api.translate(query)
+    else:
+        return api.search(query)
 
 if __name__=='__main__':
     #1. help

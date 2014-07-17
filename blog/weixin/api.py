@@ -130,6 +130,12 @@ def translate(query):
         result.append(item['dst'])
     return '\n'.join(result)
 
+def isEnglish(query):
+    for x in query:
+        if ord(x)>127:
+            return False
+    return True
+
 if __name__=='__main__':
     #for debug
     #BaiDu in chinese
