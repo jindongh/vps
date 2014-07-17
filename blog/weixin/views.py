@@ -47,10 +47,13 @@ def responseMsg(request):
     rawStr = smart_str(request.body)  
     #rawStr = smart_str(request.POST['XML'])  
     msg = paraseMsgXml(ET.fromstring(rawStr))  
-      
-    queryStr = msg.get('Content','')
 
-    replyContent = weixin.da.analyze(queryStr)
+    event = msg.get('Event')
+    if not None == event:
+        replyContent = weixin.da.analyze('subscribe')
+    else:
+        queryStr = msg.get('Content','')
+        replyContent = weixin.da.analyze(queryStr)
   
     return getReplyXml(msg,replyContent)  
   

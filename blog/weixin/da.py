@@ -46,7 +46,7 @@ SERVICES={
         }
 def analyze(query):
     #1.help/BangZhu
-    if query in ['help', 'menu', u'\u5e2e\u52a9'.encode('utf-8')]:
+    if query in ['subscribe', 'help', 'menu', u'\u5e2e\u52a9'.encode('utf-8')]:
         return helpMsg()
     #2.birthday
     if query == u'\u751f\u65e5'.encode('utf-8'):
