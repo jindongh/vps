@@ -99,12 +99,13 @@ def search(name, category=EAT):
     db=filedb.FileDB()
 
     #try db first
-    dbitem=db.getItem(db.GROUPON, name)
+    dbkey=name+category
+    dbitem=db.getItem(db.GROUPON, dbkey)
     if not None==dbitem:
         now=int(time.time())
         #check timeout
         if now - dbitem[0] < 300:
-            return dbitem[1].decode('utf-8')
+            return dbitem[1]
 
     #access api
     if False:
@@ -113,7 +114,7 @@ def search(name, category=EAT):
         result=searchDianPing(name, category)
     
     #save cache
-    db.setItem(db.GROUPON, name, result)
+    db.setItem(db.GROUPON, dbkey, result)
     return result
 
 def translate(query):
