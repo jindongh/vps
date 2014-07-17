@@ -1,0 +1,6 @@
+#!/usr/bin/pyth
+#coding: utf-8
+
+BIDU_KEY='fcWNkDO6dNs7eKatohA4d8Kb'
+DIANPING_KEY='5629551166'
+DIANPING_SECRET='17e219159196491b908be55badee225b'

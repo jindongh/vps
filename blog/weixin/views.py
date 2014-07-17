@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt  
 from django.utils.encoding import smart_str, smart_unicode 
+import weixin.api
 
 import xml.etree.ElementTree as ET  
 import urllib2,hashlib,time
@@ -46,9 +47,11 @@ def responseMsg(request):
     #rawStr = smart_str(request.POST['XML'])  
     msg = paraseMsgXml(ET.fromstring(rawStr))  
       
-    queryStr = msg.get('Content','You have input nothing~')  
-
-    replyContent = "Hello %s" % queryStr
+    queryStr = msg.get('Content','')
+    if 0 == len(queryStr):
+        replyContent = weixin.api.getHelp()
+    else:
+        replyContent = weixin.api.search(queryStr)
   
     return getReplyXml(msg,replyContent)  
   
