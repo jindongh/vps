@@ -68,11 +68,10 @@ def searchDianPing(name):
     options = getOptionsDianPing(BEIJING, loc['result'])
     result=[]
     for option in options['deals']:
-        result.append('%s(%s)%dM %fRMB %s' % (
+        result.append('%s %dM %dRMB %s' % (
             option['title'],
-            option['description'],
             option['distance'],
-            option['current_price'],
+            int(option['current_price']),
             option['deal_h5_url']
             )
             )
@@ -106,7 +105,7 @@ def search(name):
             return dbitem[1]
 
     #access api
-    if True:
+    if False:
         result=searchBIDU(name)
     else:
         result=searchDianPing(name)
