@@ -66,7 +66,7 @@ def getOptionsBIDU(city, loc, category):
 def searchDianPing(name, category):
     loc = getLocation(name)
     if not loc['status'] == 0:
-        return 'Not Found, try another location name'
+        return u'\u6ca1\u627e\u5230,\u8bf7\u6362\u4e2a\u5730\u6807'.encode('utf-8')
     options = getOptionsDianPing(BEIJING, loc['result'], category)
     result=[]
     for option in options['deals']:
@@ -82,7 +82,7 @@ def searchDianPing(name, category):
 def searchBIDU(name, category):
     loc = getLocation(name)
     if not loc['status'] == 0:
-        return 'Not Found, try another location name'
+        return u'\u6ca1\u627e\u5230,\u8bf7\u6362\u4e2a\u5730\u6807'.encode('utf-8')
     options = getOptionsBIDU(BEIJING, loc['result'], category)
     result=[]
     for option in options['results']:
