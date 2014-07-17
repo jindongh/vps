@@ -5,6 +5,8 @@ import json
 import urllib
 import urllib2
 import hashlib
+import filedb
+import time
 
 
 BEIJING='北京'
@@ -93,10 +95,25 @@ def searchBIDU(name):
     return '\n'.join(result)
 
 def search(name):
+    db=filedb.FileDB()
+
+    #try db first
+    dbitem=db.getItem(db.GROUPON, name)
+    if not None==dbitem:
+        now=int(time.time())
+        #check timeout
+        if now - dbitem[0] < 300:
+            return dbitem[1]
+
+    #access api
     if True:
-        return searchBIDU(name)
+        result=searchBIDU(name)
     else:
-        return searchDianPing(name)
+        result=searchDianPing(name)
+
+    #save cache
+    db.setItem(db.GROUPON, name, result)
+    return result
 
 def getHelp():
     return 'Please Input Location to Found items'
