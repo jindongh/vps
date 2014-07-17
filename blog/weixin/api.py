@@ -8,6 +8,7 @@ import hashlib
 
 
 BEIJING='北京'
+EAT='美食'
 def reqJson(url, params):
     try:
         paramData=urllib.urlencode(params)
@@ -36,7 +37,7 @@ def getLocation(addr):
             }
     return reqJson(URL, params)
 
-def getOptions(city, loc):
+def getOptionsDianPing(city, loc):
     URL='http://api.dianping.com/v1/deal/find_deals'
     params={
             'city': city,
@@ -46,11 +47,23 @@ def getOptions(city, loc):
             }
     return reqDianPing(URL, params)
 
-def search(name):
+def getOptionsBIDU(city, loc):
+    URL='http://api.map.baidu.com/place/v2/eventsearch'
+    params={
+            'query':EAT,
+            'event':'groupon',
+            'region':city,
+            'location':'%f,%f' % (loc['location']['lat'], loc['location']['lng']),
+            'output':'json',
+            'ak':config.BIDU_KEY,
+            }
+    return reqJson(URL, params)
+
+def searchDianPing(name):
     loc = getLocation(name)
     if not loc['status'] == 0:
         return 'Not Found, try another location name'
-    options = getOptions(BEIJING, loc['result'])
+    options = getOptionsDianPing(BEIJING, loc['result'])
     result=[]
     for option in options['deals']:
         result.append('%s(%s)%dM %fRMB %s' % (
@@ -63,17 +76,42 @@ def search(name):
             )
     return '\n'.join(result)
 
+def searchBIDU(name):
+    loc = getLocation(name)
+    if not loc['status'] == 0:
+        return 'Not Found, try another location name'
+    options = getOptionsBIDU(BEIJING, loc['result'])
+    result=[]
+    for option in options['results']:
+        result.append('%s %sM %sRMB %s' % (
+            option['name'],
+            option['distance'],
+            option['events'][0]['groupon_price'],
+            option['events'][0]['groupon_webapp_url'],
+            )
+            )
+    return '\n'.join(result)
+
+def search(name):
+    if True:
+        return searchBIDU(name)
+    else:
+        return searchDianPing(name)
+
 def getHelp():
     return 'Please Input Location to Found items'
 
 if __name__=='__main__':
+    #for debug
     BAIDU='百度大厦'
+    '''
     loc = getLocation(BAIDU)
     if not loc['status'] == 0:
         print 'get location failed'
     print loc
     options = getOptions(BEIJING, loc['result'])
     print options
+    '''
     print search(BAIDU)
 
 
