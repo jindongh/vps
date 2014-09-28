@@ -207,7 +207,7 @@ class APK:
                 for i in range(xml.getAttributeCount()):
                     key=xml.getAttributeName(i)
                     value=xml.getAttributeValue(i)
-                    if 'versionCode'==key:
+                    if 'versionName'==key:
                         self.version=value
                     if 'package' == key:
                         self.package=value
