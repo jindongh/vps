@@ -10,6 +10,8 @@ import time
 
 
 BEIJING=u'\u5317\u4eac'.encode('utf-8')
+SHANGHAI=u'\u4e0a\u6d77'.encode('utf-8')
+CITY=SHANGHAI
 #MeiShi
 EAT=u'\u7f8e\u98df'.encode('utf-8')
 def reqJson(url, params):
@@ -67,7 +69,7 @@ def searchDianPing(name, category):
     loc = getLocation(name)
     if not loc['status'] == 0:
         return u'\u6ca1\u627e\u5230,\u8bf7\u6362\u4e2a\u5730\u6807'.encode('utf-8')
-    options = getOptionsDianPing(BEIJING, loc['result'], category)
+    options = getOptionsDianPing(CITY, loc['result'], category)
     result=[]
     for option in options['deals']:
         result.append('%s %dM %dRMB %s' % (
@@ -83,7 +85,7 @@ def searchBIDU(name, category):
     loc = getLocation(name)
     if not loc['status'] == 0:
         return u'\u6ca1\u627e\u5230,\u8bf7\u6362\u4e2a\u5730\u6807'.encode('utf-8')
-    options = getOptionsBIDU(BEIJING, loc['result'], category)
+    options = getOptionsBIDU(CITY, loc['result'], category)
     result=[]
     for option in options['results']:
         result.append('%s %sM %sRMB %s' % (
@@ -146,13 +148,14 @@ if __name__=='__main__':
     if not loc['status'] == 0:
         print 'get location failed'
     print loc
-    options = getOptions(BEIJING, loc['result'])
+    options = getOptions(CITY, loc['result'])
     print options
     '''
-
     result=search(BAIDU)
-    print result.decode('utf-8').encode('gb2312')
-    print translate('hello'.encode('utf-8')).encode('gb2312')
+    GANGHUI=u'\u590d\u65e6\u5927\u5b66\u80bf\u7624\u533b\u9662'.encode('utf-8')
+    result=search(GANGHUI)
+    print result.encode('utf-8')
+    print translate('hello'.encode('utf-8')).encode('utf-8')
     print translate(u'\u4f60\u597d'.encode('utf-8'))
 
 

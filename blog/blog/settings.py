@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'blog',
     'zinnia',
     'weixin',
+    'store',
 )
 
 SITE_ID = 1
@@ -57,6 +58,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'template'),
 )
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIR_URL='/media/'
 
 
 MIDDLEWARE_CLASSES = (

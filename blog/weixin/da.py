@@ -2,6 +2,7 @@
 #coding: utf-8
 import api
 import sys
+import gmail
 
 #http://www.hankjohn.net/weixin/web
 def helpMsg():
@@ -57,6 +58,8 @@ def analyze(query):
         return '\n'.join(birthList())
     if query.startswith(u'\u751f\u65e5 '.encode('utf-8')):
         return birthOP(query)
+    if query.startswith('gmail'):
+        return gmail.getMails()
     #3. services
     ensubquery=query.split()
     chsubquery=query.split(u'\u3000'.encode('utf-8'))
@@ -78,12 +81,13 @@ def analyze(query):
             return api.search(query[len(subquery)+sublen:], SERVICES[subquery])
     #4 default
     if api.isEnglish(query):
-        return api.translate(query)
+        return 'Transtate:'+api.translate(query)
     else:
         return api.search(query)
 
 if __name__=='__main__':
     #1. help
+    print analyze('gmail')
     print '1.helo'
     print analyze('help').decode('utf-8').encode('gb2312')
     print '2.birth'
